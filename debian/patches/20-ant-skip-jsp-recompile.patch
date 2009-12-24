@@ -1,0 +1,25 @@
+diff --git a/build.xml b/build.xml
+index a1ecab3..6976f50 100644
+--- a/build.xml
++++ b/build.xml
+@@ -45,6 +45,7 @@
+             <property name="cruise.build.jmxport" value="8000"/>
+             <property name="test.skip" value="${test.skip}"/>
+             <property name="checkstyle.skip" value="${checkstyle.skip}"/>
++            <property name="jsp-recompile.skip" value="${jsp-recompile.skip}"/>
+         </ant>
+ 
+         <ant inheritAll="false" dir="reporting/dashboard" target="dist" >
+diff --git a/reporting/jsp/build.xml b/reporting/jsp/build.xml
+index 8903023..cd4a053 100644
+--- a/reporting/jsp/build.xml
++++ b/reporting/jsp/build.xml
+@@ -230,7 +230,7 @@
+         </war>
+     </target>
+ 
+-    <target name="jsp-precompile" depends="war">
++    <target name="jsp-precompile" depends="war" unless="jsp-recompile.skip">
+         <mkdir dir="target/jsp-precompile/exploded-war"/>
+         <unzip src="${deploy.dir}/cruisecontrol.war" dest="target/jsp-precompile/exploded-war"/>
+ 

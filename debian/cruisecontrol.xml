@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<cruisecontrol>
+  <!--
+  <project name="sample">
+    <bootstrappers/>
+    
+    <modificationset quietperiod="600">
+      <cvs cvsroot="/var/lib/cvs"/>
+    </modificationset>
+    
+    <schedule interval="3600">
+      <ant buildfile="build.xml" target="ccontrol.loop" multiple="1"/>
+    </schedule>
+    
+    <publishers/>
+  </project>
+  -->
+</cruisecontrol>

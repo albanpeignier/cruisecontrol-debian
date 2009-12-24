@@ -1,0 +1,21 @@
+#!/bin/sh -e
+
+#DEBHELPER#
+
+case "$1" in
+    purge)
+        # Remove user and log files (don't remove everything under
+        # /var/spool/cruisecontrol because there might be important user files)
+        userdel ccontrol || true
+        rm -rf /var/log/cruisecontrol /var/cache/cruisecontrol
+    ;;
+
+    remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+        # Nothing to do here
+    ;;
+
+    *)
+        echo "$0 called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac

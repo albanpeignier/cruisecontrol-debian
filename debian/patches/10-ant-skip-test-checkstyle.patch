@@ -1,0 +1,98 @@
+diff --git a/build.xml b/build.xml
+index 8d6c08f..a1ecab3 100644
+--- a/build.xml
++++ b/build.xml
+@@ -34,6 +34,8 @@
+     <target name="build" depends="checklabel" description="Create core lib and webapp">
+         <ant inheritAll="false" dir="main">
+             <property name="cc.release.label" value="${cc.release.label}"/>
++            <property name="test.skip" value="${test.skip}"/>
++            <property name="checkstyle.skip" value="${checkstyle.skip}"/>
+         </ant>
+ 
+         <ant inheritAll="false" dir="reporting/jsp">
+@@ -41,10 +43,14 @@
+             <property name="user.build.status.file" value="status.txt"/>
+             <property name="cruise.build.artifacts.dir" value="artifacts"/>
+             <property name="cruise.build.jmxport" value="8000"/>
++            <property name="test.skip" value="${test.skip}"/>
++            <property name="checkstyle.skip" value="${checkstyle.skip}"/>
+         </ant>
+ 
+         <ant inheritAll="false" dir="reporting/dashboard" target="dist" >
+             <property name="cc.release.label" value="${cc.release.label}"/>
++            <property name="test.skip" value="${test.skip}"/>
++            <property name="checkstyle.skip" value="${checkstyle.skip}"/>
+         </ant>
+     </target>
+ 
+diff --git a/main/build.xml b/main/build.xml
+index bcccd20..d52ffaa 100644
+--- a/main/build.xml
++++ b/main/build.xml
+@@ -158,7 +158,7 @@
+         </copy>
+     </target>
+ 
+-    <target name="compile-test" depends="compile" description="Compile test code">
++    <target name="compile-test" depends="compile" description="Compile test code" unless="test.skip">
+         <compile-macro srcdir="${test}" destdir="${test.classes}">
+             <classpath refid="project.runtime.classpath" />
+         </compile-macro>
+@@ -299,7 +299,7 @@
+ 
+     </target>
+ 
+-    <target name="checkstyle" description="run checkstyle">
++    <target name="checkstyle" description="run checkstyle" unless="checkstyle.skip">
+         <checkstyle-macro reportsdir="${reports.dir}" configfile="${checkstyle.config}" checkstylecache="${checkstyle.cache}">
+             <taskdef resource="checkstyletask.properties" classpath="${checkstyle.jar}" />
+         </checkstyle-macro>
+diff --git a/main/loggers/build.xml b/main/loggers/build.xml
+index bf15186..1c18eec 100644
+--- a/main/loggers/build.xml
++++ b/main/loggers/build.xml
+@@ -23,7 +23,7 @@
+     </javac>
+   </target>
+ 
+-  <target name="test">
++  <target name="test" unless="test.skip">
+     <mkdir dir="target/test-results"/>
+     <junit fork="true" forkmode="perBatch" haltonfailure="false" printsummary="true" dir="target" failureproperty="test.failed">
+       <classpath>
+diff --git a/reporting/dashboard/build.xml b/reporting/dashboard/build.xml
+index 4b151d9..275055f 100644
+--- a/reporting/dashboard/build.xml
++++ b/reporting/dashboard/build.xml
+@@ -566,7 +566,7 @@
+ 	</target>
+ 
+ 	<target name="stat" depends="-emma.clean, --compile, -compile-tests,-properties.unit, -emma.instr, -unit-tests, -emma.reporting, -emma.check" description="generating the test coverage of source code" />
+-	<target name="checkstyle" description="checkstyle">
++	<target name="checkstyle" description="checkstyle" unless="checkstyle.skip">
+ 		<checkstyle-macro reportsdir="${reports.dir}" configfile="${checkstyle.config}" checkstylecache="${checkstyle.cache}" testdir="${unittest.dir}">
+ 
+ 			<taskdef classpathref="lib.classpath" resource="checkstyletask.properties" />
+diff --git a/reporting/jsp/build.xml b/reporting/jsp/build.xml
+index 3b0e012..8903023 100644
+--- a/reporting/jsp/build.xml
++++ b/reporting/jsp/build.xml
+@@ -135,7 +135,7 @@
+         </simian>
+     </target>
+ 
+-    <target name="-checkstyle">
++    <target name="-checkstyle" unless="checkstyle.skip">
+         <checkstyle-macro
+             reportsdir="${reports.dir}"
+             configfile="${checkstyle.config}"
+@@ -162,7 +162,7 @@
+         <compile-macro/>
+     </target>
+ 
+-    <target name="compile-test" depends="compile"
++    <target name="compile-test" depends="compile" unless="test.skip"
+         description="Compile test code">
+         <compile-macro srcdir="${test}" destdir="${test.classes}"/>
+     </target>

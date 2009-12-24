@@ -1,0 +1,12 @@
+#!/bin/sh
+
+CRUISE_CLEANCACHE=7
+
+if [ -f /etc/default/cruisecontrol ]; then
+    . /etc/default/cruisecontrol
+fi
+
+# remove old files in the cache
+[ -n "$CRUISE_CLEANCACHE" -a "$CRUISE_CLEANCACHE" -gt 0 ] && find /var/cache/cruisecontrol -ctime +$CRUISE_CLEANCACHE -type f -print0 | xargs -0 -r rm
+# remove old files in the logs directory
+[ -n "$CRUISE_CLEANLOGS" -a "$CRUISE_CLEANLOGS" -gt 0 ] && find /var/spool/cruisecontrol/logs -ctime +$CRUISE_CLEANLOGS -type f -print0 | xargs -0 -r rm

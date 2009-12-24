@@ -1,0 +1,12 @@
+etc/cruisecontrol
+usr/bin
+usr/share/cruisecontrol/bin
+usr/share/cruisecontrol/dist
+usr/share/cruisecontrol/lib
+usr/share/cruisecontrol/webapps/cruisecontrol
+usr/share/cruisecontrol/reporting/css
+usr/share/cruisecontrol/reporting/xsl
+var/log/cruisecontrol
+var/spool/cruisecontrol
+var/spool/cruisecontrol/logs
+var/cache/cruisecontrol

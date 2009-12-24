@@ -1,0 +1,39 @@
+.\" Process this file with
+.\" groff -man -Tascii cruisecontrol.1
+.\"
+.TH cruisecontrol 1 "October 2003" "Debian/GNU Linux" ""
+.SH NAME
+cruisecontrol \- Starts a continuous integration loop
+.SH SYNOPSIS
+.B cruisecontrol -configfile
+.I config-file
+.B -port
+.I number
+.B -log
+.I url
+.B -basedir
+.I dir
+.SH DESCRIPTION
+.B cruisecontrol
+Starts a continuous integration loop.
+.SH OPTIONS
+.IP "-configfile config-file"
+where file is the configuration file
+.IP "-port number"
+where number is the port of the Controller web site
+.IP "-basedir dir"
+where dir is the base directory to execute CruiseControl
+.IP "-log url"
+where url is the log4j configuration url
+.SH ENVIRONMENT
+.IP JAVA_HOME
+the base path to find the
+.IR tools.jar 
+file.
+.IP CRUISE_PATH
+an additional classpath to the default CruiseControl
+.SH AUTHOR
+Alban Peignier <alban.peignier@free.fr>
+.SH SEE ALSO
+CruiseControl web site :
+.B http://cruisecontrol.sourceforge.net

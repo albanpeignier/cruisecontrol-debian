@@ -1,0 +1,44 @@
+# Run CruiseControl as this user ID (default: ccontrol)
+#
+# Set this to an empty string to prevent CruiseControl from starting
+# automatically. Think to stop CruiseControl before setting an empty string ;o)
+#
+#CRUISE_USER=""
+
+# Port used for the JMX Http Console
+#CRUISE_PORT=4000
+
+# CRUISE_WEBPORT
+# Port used by embedded web applications (dashboard, ...)
+#CRUISE_WEBPORT=4001
+
+# CRUISE_RMIPORT
+# Port used by the MBeanServer RMIConnector
+# defaults: disabled
+#CRUISE_RMIPORT=4002
+
+# The home directory of the Java development kit (JDK).
+#JAVA_HOME=/usr/lib/jvm/java-6-sun
+
+# JVM options
+#JAVA_OPTIONS="-Xmx512m"
+
+# Arguments to pass to the CruiseControl script
+#CRUISE_OPTS=""
+
+#
+# Clean options
+# used by /etc/cron.daily/cruisecontrol
+#
+
+# CRUISE_CLEANCACHE
+# Max days to keep the cache (/var/cache/cruisecontrol) files
+# defaults: 7
+
+#CRUISE_CLEANCACHE=7
+
+# CRUISE_CLEANLOGS
+# Max days to keep the logs (/var/spool/cruisecontrol/logs) files
+# defaults: none
+
+#CRUISE_CLEANLOGS=7

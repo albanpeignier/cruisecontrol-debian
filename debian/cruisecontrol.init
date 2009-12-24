@@ -1,0 +1,139 @@
+#! /bin/sh -e
+#
+# /etc/init.d/cruisecontrol -- startup script for the CruiseControl engine
+#
+# Writed by Alban Peignier <alban.peignier@free.fr>.
+# Based on the tomcat4 init script
+
+PATH=/usr/bin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+NAME=cruisecontrol
+DESC="CruiseControl loop engine"
+DAEMON=/usr/bin/$NAME
+
+# The following variables can be overwritten in /etc/default/cruisecontrol
+
+# Run CruiseControl as this user ID (default: ccontrol)
+# Set this to an empty string to prevent CruiseControl from starting automatically
+CRUISE_USER=ccontrol
+CRUISE_PORT=4000
+CRUISE_WEBPORT=4001
+
+# Arguments to pass to the Java virtual machine (JVM)
+CRUISE_OPTS=""
+
+# The first existing directory is used for JAVA_HOME (if JAVA_HOME is not
+# defined in /etc/default/cruisecontrol)
+JDK_DIRS=`ls -d /usr/lib/jvm/* /usr/lib/j2sdk* /usr/lib/j2re* 2> /dev/null || true`
+
+# End of variables that can be overwritten in /etc/default/cruisecontrol
+
+# overwrite settings from default file
+if [ -f /etc/default/cruisecontrol ]; then
+    . /etc/default/cruisecontrol
+fi
+
+test -f $DAEMON || exit 0
+
+function check_for_no_start() {
+  if [ -z "$CRUISE_USER" ]; then
+    echo "Not starting/stopping $DESC as configured (CRUISE_USER is"
+    echo "empty in /etc/default/cruisecontrol)."
+    exit 0
+  fi
+}
+
+# Look for the right JVM to use
+for jdir in $JDK_DIRS; do
+    if [ -d "$jdir" -a -z "${JAVA_HOME}" ]; then
+        JAVA_HOME="$jdir"
+    fi
+done
+export JAVA_HOME
+
+if [ -z "$JAVA_HOME" ]; then
+    echo "Could not start $DESC because no Java Development Kit"
+    echo "(JDK) was found. Please download and install JDK 1.3 or higher and set"
+    echo "JAVA_HOME in /etc/default/cruisecontrol to the JDK's installation directory."
+    exit 0
+fi
+
+[ -n "$JAVA_OPTIONS" ] && export JAVA_OPTIONS
+
+CRUISE_OPTS="$CRUISE_OPTS -configfile /etc/cruisecontrol/cruisecontrol.xml"
+CRUISE_OPTS="$CRUISE_OPTS -port $CRUISE_PORT"
+CRUISE_OPTS="$CRUISE_OPTS -log file:/etc/cruisecontrol/log4j.xml"
+CRUISE_OPTS="$CRUISE_OPTS -basedir /var/spool/cruisecontrol"
+CRUISE_OPTS="$CRUISE_OPTS -daemon"
+
+if [ -n "$CRUISE_RMIPORT" ]; then
+	CRUISE_OPTS="$CRUISE_OPTS -rmiport $CRUISE_RMIPORT"
+fi
+
+if [ -n "$CRUISE_WEBPORT" ]; then
+	CRUISE_OPTS="$CRUISE_OPTS -webport $CRUISE_WEBPORT"
+fi
+
+export CRUISE_OPTS
+
+# Define other required variables
+LOGDIR="/var/log/cruisecontrol"
+
+CRUISE_PIDFILE="/var/run/$NAME.pid"
+CRUISE_OUTPUTFILE=$LOGDIR/cruisecontrol.out
+
+export CRUISE_PIDFILE CRUISE_OUTPUTFILE
+
+case "$1" in
+  start)
+    check_for_no_start
+    echo -n "Starting $DESC: "
+
+    touch "$CRUISE_PIDFILE" "$LOGDIR/cruisecontrol.out" || true
+    chown --dereference "$CRUISE_USER" "$CRUISE_PIDFILE" "$LOGDIR" \
+        "$LOGDIR/cruisecontrol.out" || true
+    if start-stop-daemon --test --start --pidfile "$CRUISE_PIDFILE" \
+        --user $CRUISE_USER --startas "$JAVA_HOME/bin/java" \
+        >/dev/null; then
+        # -p preserves the environment (for $JAVA_HOME etc.)
+        # -s is required because cruisecontrol's login shell is /bin/false
+        su -p -s /bin/sh $CRUISE_USER \
+            -c "\"$DAEMON\" $CRUISE_OPTS" \
+            >>"$LOGDIR/cruisecontrol.out" 2>&1
+        echo "$NAME."
+    else
+        echo "(already running)."
+    fi
+    ;;
+  stop)
+    echo -n "Stopping $DESC: "
+        if start-stop-daemon --test --start --pidfile "$CRUISE_PIDFILE" \
+                --startas "$JAVA_HOME/bin/java" \
+        >/dev/null; then
+        echo "(not running)."
+    else
+        stop_options=""
+        if [ -n "$CRUISE_USER" ]; then
+            stop_options="--user $CRUISE_USER"
+        fi
+
+        start-stop-daemon --stop --oknodo --quiet \
+            --pidfile "$CRUISE_PIDFILE" $stop_options
+        rm -f "$CRUISE_PIDFILE"
+        echo "$NAME."
+    fi
+    ;;
+  restart|force-reload)
+    check_for_no_start
+
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+  *)
+    #echo "Usage: /etc/init.d/cruisecontrol {start|stop|restart|reload|force-reload}" >&2
+    echo "Usage: /etc/init.d/cruisecontrol {start|stop|restart|force-reload}" >&2
+    exit 1
+    ;;
+esac
+
+exit 0

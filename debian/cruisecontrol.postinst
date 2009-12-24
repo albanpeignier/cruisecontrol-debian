@@ -1,0 +1,24 @@
+#!/bin/sh -e
+
+case "$1" in
+    configure)
+	if ! id ccontrol > /dev/null 2>&1 ; then
+	    adduser --system --home /var/spool/cruisecontrol --no-create-home \
+		--ingroup nogroup --disabled-password --shell /bin/false \
+		ccontrol
+	fi
+
+	chown ccontrol:adm /var/log/cruisecontrol /var/spool/cruisecontrol /var/cache/cruisecontrol
+	chmod 755 /var/log/cruisecontrol /var/spool/cruisecontrol /var/cache/cruisecontrol
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+	echo "$0 called with unknown argument \`$1'" >&2
+	exit 1
+    ;;
+esac
+
+#DEBHELPER#

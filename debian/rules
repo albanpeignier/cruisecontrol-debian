@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+# debian/rules file for libivy-java (uses cdbs)
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/rules/simple-patchsys.mk
+include /usr/share/cdbs/1/class/ant.mk
+
+JAVA_HOME_DIRS := /usr/lib/jvm/java-1.5.0-sun /usr/lib/jvm/java-6-sun /usr/lib/jvm/java-gcj
+ANT_HOME  := /usr/share/ant
+
+# Additional JARs to add to the class path, either full path or just the
+# basename for JARs in /usr/share/java. The ".jar" suffix may also be ommitted
+#DEB_JARS := junit ant-junit ant-trax
+
+# Ant targets to call
+DEB_ANT_CLEAN_TARGET := clean
+DEB_ANT_INSTALL_TARGET	:= build
+
+DEB_ANT_ARGS := -Dtest.skip=true -Dcheckstyle.skip=true -Dvalidate-website.skip=true -Djsp-recompile.skip=true
+
+common-install-arch common-install-indep:: common-install-impl
+common-install-impl::
+	@$(MAKE) -s -f debian/Makefile prefix=`pwd`/debian/cruisecontrol install

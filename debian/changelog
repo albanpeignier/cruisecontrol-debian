@@ -1,0 +1,116 @@
+cruisecontrol (2.8.2-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Alban Peignier <alban.peignier@free.fr>  Thu, 24 Dec 2009 07:56:50 +0100
+
+cruisecontrol (2.7.1-0) unstable; urgency=low
+
+  * New upstream release
+
+ -- Alban Peignier <alban.peignier@free.fr>  Tuesday, 27 Feb 2008 11:53:00 +0100
+
+cruisecontrol (2.6+svn20061226-0) unstable; urgency=low
+
+  * New upstream release
+  * New cdbs rules file
+
+ -- Alban Peignier <alban.peignier@free.fr>  Tuesday, 26 Dec 2006 15:10:00 +0100
+
+cruisecontrol (2.3.1-1) unstable; urgency=low
+
+  * added the rmiport support
+  * added JAVA_OPTIONS option
+  * fixed warnings and errors reported by lintian
+
+ -- Alban Peignier <alban.peignier@free.fr>  Wednesday, 30 Nov 2005 18:00:00 +0100
+
+cruisecontrol (2.3.1-0) unstable; urgency=low
+
+  * New upstream release
+  * added the reporting website war file
+  * integrated embedded jetty webserver to make reporting website available
+  * added cron daily scripts to clean
+
+ -- Alban Peignier <alban.peignier@free.fr>  Friday, 28 Nov 2005 12:00:00 +0100
+
+cruisecontrol (2.2.0-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Alban Peignier <alban.peignier@free.fr>  Monday, 1 Nov 2004 13:45:00 +0200
+
+cruisecontrol (2.2rc3-1) unstable; urgency=low
+
+  * fixed the inclusion of mx4j libraries
+  * modified the default JDK homes to include paths used by j2se-package
+  * New upstream release
+
+ -- Alban Peignier <alban.peignier@free.fr>  Thu, 21 Oct 2004 10:35:00 +0200
+
+cruisecontrol (2.1.6-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Alban Peignier <alban.peignier@free.fr>  Tue, 6 Jul 2004 19:45:00 +0200
+
+cruisecontrol (2.1.5-4) unstable; urgency=low
+
+  * new CRUISE_PORT option in /etc/default/cruisecontrol
+  * init script can stop the daemon even if the CRUISE_USER is undefined (Daniel Bonniot)
+  * add a check of the jdk version during the binary build
+  * add ant_j2se1.3 and ant_j2se1.4 helper scripts to start easily ant with a modified JAVA_HOME
+
+ -- Alban Peignier <alban.peignier@free.fr>  Tue, 13 Feb 2004 21:45:00 +0200
+
+cruisecontrol (2.1.5-3) unstable; urgency=low
+
+  * New upstream release (use 2.1.5 official sources)
+  * compile with the jdk 1.3.1
+
+ -- Alban Peignier <alban.peignier@free.fr>  Tue, 13 Feb 2004 00:08:00 +0200
+
+cruisecontrol (2.1.5-2) unstable; urgency=low
+
+  * Add to the default file a small tip - reported by Daniel Bonniot
+  * Include the commons-net by waiting a independant package
+
+ -- Alban Peignier <alban.peignier@free.fr>  Tue, 06 Feb 2004 21:37:00 +0200
+
+cruisecontrol (2.1.5-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Alban Peignier <alban.peignier@free.fr>  Tue, 03 Feb 2004 07:23:48 +0200
+
+cruisecontrol (2.1.4-3) unstable; urgency=low
+
+  * added the logrotate configuration
+
+ -- Alban Peignier <alban.peignier@free.fr>  Thu, 13 Oct 2003 22:40:00 +0200
+
+cruisecontrol (2.1.4-2) unstable; urgency=low
+
+  * compile with the jdk 1.3.1
+
+ -- Alban Peignier <alban.peignier@free.fr>  Thu, 06 Oct 2003 21:00:00 +0200
+
+cruisecontrol (2.1.4-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Alban Peignier <alban.peignier@free.fr>  Thu, 06 Oct 2003 21:00:00 +0200
+
+cruisecontrol (2.1.3-1) unstable; urgency=low
+
+  * New upstream release
+  * Uses debhelper
+
+ -- Alban Peignier <alban.peignier@free.fr>  Thu, 05 Oct 2003 16:02:48 +0200
+
+cruisecontrol (2.0.2-2) unstable; urgency=low
+
+  * added all the available dependencies : libxerces2-java, ant, liblog4j1.2-java, junit, libjdom-java
+  * added changelog, changelog.Debian and copyright files
+
+ -- Alban Peignier <alban.peignier@free.fr>  Sun, 1 Jun 2003 10:13:34 +0200

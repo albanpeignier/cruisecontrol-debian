@@ -1,0 +1,13 @@
+diff --git a/build.xml b/build.xml
+index 6976f50..b3d59bb 100644
+--- a/build.xml
++++ b/build.xml
+@@ -81,7 +81,7 @@
+         </replace>
+     </target>
+ 
+-    <target name="validate-website">
++    <target name="validate-website" unless="validate-website.skip">
+         <xmlvalidate>
+             <fileset dir="target/website" includes="**/*.html"/>
+         </xmlvalidate>
